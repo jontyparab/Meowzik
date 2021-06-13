@@ -1,12 +1,23 @@
 <template>
   <base-card>
-    <draggable v-model="queue" tag="div" item-key="id" handle=".handle">
+    <draggable
+      v-model="queue"
+      tag="transition-group"
+      :component-data="{
+        tag: 'div',
+      }"
+      v-bind="dragOptions"
+      @start="drag = true"
+      @end="drag = false"
+      item-key="id"
+      handle=".handle"
+    >
       <template #item="{ element }">
         <div class="song-item p-d-flex p-ai-center p-jc-start">
           <control-button
             class="handle p-mx-2"
             icon="drag"
-            color="transparent"
+            color="white"
             size="1.5"
           />
           <span class="queue-song-name">{{ element.name }}</span>
@@ -29,7 +40,7 @@
 </template>
 
 <script>
-import { computed } from "vue";
+import { ref, computed } from "vue";
 import { useStore } from "vuex";
 import draggable from "vuedraggable";
 export default {
@@ -49,8 +60,19 @@ export default {
     //   URL.revokeObjectURL(store.getters.currentSong);
     //   console.log("clearsong ran ", store.getters.currentSong);
     // };
+    const drag = ref(false);
+    const dragOptions = computed(() => {
+      return {
+        animation: 150,
+        group: "description",
+        disabled: false,
+        ghostClass: "ghost",
+      };
+    });
     return {
       queue,
+      drag,
+      dragOptions,
     };
   },
 };
@@ -64,15 +86,17 @@ export default {
   width: auto;
   min-height: 75%;
   max-height: 75%;
+  // color: #f48c06;
   overflow: auto !important;
 }
 .song-item {
   margin: 0.4rem;
-  -webkit-backdrop-filter: blur(3px);
-  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(1px);
+  backdrop-filter: blur(1px);
   padding: 0.5rem;
   vertical-align: middle;
-  border-bottom: solid rgba(169, 169, 169, 0.274);
+  border-radius: 0.5rem;
+  border-bottom: solid 0.1rem rgba(169, 169, 169, 0.274);
 }
 .queue-song-name {
   flex: 1;
@@ -82,8 +106,13 @@ export default {
 }
 .handle {
   cursor: grab !important;
-  border-radius: 0px !important;
-  border: none !important;
+  border-radius: 0.4rem !important;
+}
+.ghost {
+  opacity: 0.7;
+  color: #f48c06ff;
+  border-radius: 0.5rem;
+  background: #0353a4ff;
 }
 @media only screen and (max-width: 1024px) {
   .myCard {

@@ -8,9 +8,16 @@
       :size="size"
     />
 
-    <input class="mySlider" type="range" min="1" max="100" />
+    <input
+      class="mySlider"
+      @input="changeValue"
+      :value="value"
+      type="range"
+      :min="min || 0"
+      :max="max || 100"
+    />
 
-    <output class="p-mx-1" v-if="icon">100</output>
+    <output class="p-mx-1" v-if="icon">{{ value }}</output>
   </div>
 </template>
 
@@ -19,14 +26,19 @@ import { computed } from "vue";
 import ControlButton from "../Home/ControlButton.vue";
 
 export default {
-  props: ["icon", "color", "orientation", "size"],
+  props: ["icon", "size", "min", "max", "value"],
+  emits: ["newVal"],
   components: [ControlButton],
-  setup(props) {
+  setup(props, { emit }) {
     const iconPath = computed(() => {
       return require("@/assets/images/" + props.icon + ".svg");
     });
+    const changeValue = (event) => {
+      emit("newVal", event.target.value);
+    };
     return {
       iconPath,
+      changeValue,
     };
   },
 };

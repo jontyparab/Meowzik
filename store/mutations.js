@@ -9,5 +9,8 @@ export default {
     appendSongList(state, payload) {
         state.songList.push(...payload);
     },
+    background(state, payload) {
+        state.background = payload;
+    }
 
 }

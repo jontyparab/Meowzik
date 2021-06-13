@@ -11,4 +11,7 @@ export default {
         }
         commit('appendSongList', payload);
     },
+    background(context, payload) {
+        context.commit('background', payload);
+    }
 }

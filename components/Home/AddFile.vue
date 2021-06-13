@@ -67,7 +67,7 @@ export default {
       const newSongs = [];
       for (let i = 0; i < songList.length; i++) {
         const md = await mmb.parseBlob(songList[i]);
-        // console.log(md);
+        // createObjectURL should be avoided; Use mediaSource instead;
         const soundurl = URL.createObjectURL(songList[i]);
         const newSong = new Song(
           Date.now() + i,

@@ -4,11 +4,15 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { computed } from "vue";
+import { useStore } from "vuex";
 
 export default {
   setup() {
-    const backgroundImg = ref(require("@/assets/images/cat1.jpg"));
+    const store = useStore();
+    const backgroundImg = computed(() => {
+      return store.getters.background;
+    });
 
     return {
       backgroundImg,
@@ -26,7 +30,7 @@ export default {
   height: 100vh;
   width: 100vw;
   z-index: -1;
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .background {

@@ -12,14 +12,11 @@ export default createStore({
   state() {
     return {
       currentSong: null,
-      // volume: 50,
-      // repeat: false,
-      // loopQueue: false,
-      // shuffle: false,
-
       songList: [
-        { name: "Kimino Shiranai Monogatari - Copyasfnsodfoi23423434 23333333333333333333333333333333333333333333333", id: 1 },
+        // { name: "Kimino Shiranai Monogatari - Copyasfnsodfoi23423434 23333333333333333333333333333333333333333333333", id: 1 },
       ],
+      background: require('@/assets/images/cat1.jpg'),
+
     }
   },
   mutations,
