@@ -21,22 +21,22 @@
   <!-- Other Controls -->
   <div class="p-d-flex p-m-2 p-jc-around">
     <div class="control" @click="toggleRepeat">
-      <control-button icon="repeat" color="#5a189a" size="1.6" />
+      <control-button icon="repeat" color="var(--secondColor)" size="1.6" />
     </div>
     <div class="control" @click="toggleShuffle">
-      <control-button icon="shuffle" color="#5a189a" size="1.6" />
+      <control-button icon="shuffle" color="var(--secondColor)" size="1.6" />
     </div>
   </div>
   <!-- Main Controls -->
   <div class="p-d-flex p-m-2 p-jc-around p-ai-center">
     <div class="control" @click="changeSong(-1)">
-      <control-button icon="previous" color="#0353a4" size="2.2" />
+      <control-button icon="previous" color="var(--firstColor)" size="2.2" />
     </div>
     <div class="control" @click="playPauseSong">
-      <control-button icon="play" color="#0353a4" size="3.5" />
+      <control-button :icon="playPause" color="var(--firstColor)" size="3.5" />
     </div>
     <div class="control" @click="changeSong(1)">
-      <control-button icon="next" color="#0353a4" size="2.2" />
+      <control-button icon="next" color="var(--firstColor)" size="2.2" />
     </div>
   </div>
   <!-- Volume -->
@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import { ref, computed } from "vue";
+import { ref, computed, watch } from "vue";
 import { useStore } from "vuex";
 export default {
   setup() {
@@ -52,6 +52,7 @@ export default {
     const tempIdArr = [];
 
     const audioElm = ref();
+    const playPause = ref("play");
     const volume = ref(30);
     const trackPos = ref(0);
 
@@ -68,21 +69,28 @@ export default {
 
     const loadSong = computed(() => {
       const track = currentSong.value;
-      // console.log(track);
       return track ? track.audioTrack : null;
     });
 
+    watch(loadSong, () => {
+      playPause.value = "pause";
+    });
+
     const playPauseSong = () => {
-      if (audioElm.value.paused) {
-        audioElm.value.play();
-      } else {
-        audioElm.value.pause();
+      if (currentSong.value) {
+        if (audioElm.value.paused) {
+          playPause.value = "pause";
+          audioElm.value.play();
+        } else {
+          playPause.value = "play";
+          audioElm.value.pause();
+        }
       }
     };
 
     const changeSong = (val = 1) => {
       const ind = songList.value.findIndex(
-        (song) => song.id === currentSong.value.id
+        (song) => song?.id === currentSong.value?.id
       );
       let nextInd;
       if (shuffleSongs.value) {
@@ -92,18 +100,9 @@ export default {
             (song) => !tempIdArr.includes(song.id)
           );
           const randomInd = Math.floor(Math.random() * filteredArr.length);
-          // console.log(
-          //   "tempLen:",
-          //   tempIdArr.length,
-          //   "origLen:",
-          //   songList.value.length,
-          //   "randInd:",
-          //   randomInd
-          // );
           store.dispatch("currentSong", filteredArr[randomInd]);
         } else {
           tempIdArr.length = 0;
-          // console.log(tempIdArr.length);
           changeSong();
         }
       } else {
@@ -111,7 +110,6 @@ export default {
         //If repeat is on then ofcourse the song repeats;
         const length = songList.value.length;
         nextInd = (ind + val < 0 ? length - 1 : ind + val) % length;
-        console.log(nextInd, tempIdArr.length);
         store.dispatch("currentSong", songList.value[nextInd]);
       }
     };
@@ -133,18 +131,20 @@ export default {
 
     // Track Movement
     const updateThumb = (newVal) => {
+      playPause.value = "pause";
+      if (!currentSong.value) {
+        return;
+      }
       audioElm.value.currentTime = (currentSong.value?.duration * newVal) / 100;
       updateTime();
     };
     const autoThumb = () => {
-      const percentCovered = Math.floor(
-        (audioElm.value?.currentTime / currentSong.value?.duration) * 100
-      );
+      const percentCovered =
+        (audioElm.value?.currentTime / currentSong.value?.duration) * 100;
       trackPos.value = percentCovered;
       updateTime();
     };
     const updateTime = () => {
-      // console.log(trackPos.value);
       currTimeStr.value = getTimeFormat(audioElm.value?.currentTime);
     };
     const getTimeFormat = (time) => {
@@ -156,6 +156,7 @@ export default {
 
     return {
       audioElm,
+      playPause,
       durationStr,
       trackPos,
       currTimeStr,

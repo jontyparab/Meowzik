@@ -13,5 +13,8 @@ export default {
     },
     background(context, payload) {
         context.commit('background', payload);
+    },
+    backgroundName(context, payload) {
+        context.commit('backgroundName', payload);
     }
 }

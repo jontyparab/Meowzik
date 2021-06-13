@@ -16,6 +16,7 @@ export default createStore({
         // { name: "Kimino Shiranai Monogatari - Copyasfnsodfoi23423434 23333333333333333333333333333333333333333333333", id: 1 },
       ],
       background: require('@/assets/images/cat1.jpg'),
+      backgroundName: 'Cat.jpg'
 
     }
   },

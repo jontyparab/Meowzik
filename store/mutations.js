@@ -11,6 +11,8 @@ export default {
     },
     background(state, payload) {
         state.background = payload;
+    },
+    backgroundName(state, payload) {
+        state.backgroundName = payload;
     }
-
 }

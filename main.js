@@ -9,6 +9,8 @@ import PrimeVue from 'primevue/config';
 // import 'primeicons/primeicons.css'                          //icons
 import 'primeflex/primeflex.css';                           //primeflex
 
+import "@/assets/css/variables.css";
+
 import BaseCard from './components/Base/BaseCard.vue';
 import BaseButton from './components/Base/BaseButton.vue';
 import BaseSlider from './components/Base/BaseSlider.vue';

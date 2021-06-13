@@ -1,11 +1,34 @@
 <template>
-  <div class="myCard">
+  <div class="myCard" :style="cardStyle">
     <slot></slot>
   </div>
 </template>
 
 <script>
-export default {};
+import { computed } from "vue";
+import { useStore } from "vuex";
+export default {
+  setup() {
+    const store = useStore();
+    const cardStyle = computed(() => {
+      const bol = store.getters["theme/colors"]["borderCheck"];
+      if (bol) {
+        return {
+          boxShadow:
+            "0px 0px 0px 1px var(--secondColor),0px 0px 0px 2px var(--thirdColor), 0px 0px 0px 3px var(--firstColor)",
+        };
+      } else {
+        return {
+          boxShadow: "0 2px 2px 1px rgba(0, 0, 0, 0.2)",
+        };
+      }
+    });
+
+    return {
+      cardStyle,
+    };
+  },
+};
 </script>
 
 <style scoped>
@@ -14,8 +37,8 @@ export default {};
   background: rgba(0, 0, 0, 0.3);
   border-radius: 1rem;
   box-shadow: 0 2px 2px 1px rgba(0, 0, 0, 0.2);
-  box-shadow: 0px 0px 0px 1px #59189a20, 0px 0px 0px 2px #f48c0620,
-    0px 0px 0px 3px #0353a420;
+  /* box-shadow: 0px 0px 0px 1px var(--secondColor),
+    0px 0px 0px 2px var(--thirdColor), 0px 0px 0px 3px var(--firstColor); */
   overflow-x: hidden;
 
   /* border-image-source: linear-gradient(to left, #5a189a, #0353a4);

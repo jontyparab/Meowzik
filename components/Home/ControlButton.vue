@@ -39,7 +39,6 @@ img {
   height: 100%;
   width: 100%;
   padding: 0.2rem;
-  color: white;
 }
 @media only screen and (max-width: 1024px) {
 }

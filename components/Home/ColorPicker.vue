@@ -8,34 +8,51 @@
     <input
       class="p-ml-auto"
       :type="clr.type || 'color'"
+      :value="colors[clr.id]"
+      :checked="colors[clr.id]"
       :id="clr.id"
-      @input="logging"
+      @change="changeColor"
     />
   </div>
 </template>
 
 <script>
-// import { reactive } from "vue";
+import { computed } from "vue";
+import { useStore } from "vuex";
 
 export default {
-  setup() {
+  props: ["saveTheme"],
+  emits: ["settheme"],
+  setup(_, { emit }) {
+    const store = useStore();
+
     const customization = [
-      { name: "Play/Pause Buttons", id: "first-color" },
-      { name: "Repeat/Shuffle Buttons", id: "second-color" },
-      { name: "Track/ Buttons", id: "third-color" },
-      { name: "Button Text", id: "fourth-color" },
-      { name: "Track Thumb", id: "fifth-color" },
-      { name: "Play Queue", id: "sixth-color" },
-      { name: "Remove Queue", id: "seventh-color" },
-      { name: "Border", id: "border-check", type: "checkbox" },
+      { name: "Play/Pause Buttons", id: "firstColor" },
+      { name: "Repeat/Shuffle Buttons", id: "secondColor" },
+      { name: "Track/Buttons/Handle", id: "thirdColor" },
+      { name: "Text", id: "fourthColor" },
+      { name: "Track Thumb", id: "fifthColor" },
+      { name: "Play Queue", id: "sixthColor" },
+      { name: "Remove Queue", id: "seventhColor" },
+      { name: "Border", id: "borderCheck", type: "checkbox" },
     ];
 
-    const logging = (value) => {
-      console.log(value);
+    const colors = computed(() => {
+      return store.getters["theme/colors"];
+    });
+    const newTheme = { ...colors?.value };
+    const changeColor = (event) => {
+      let val = event.target.value;
+      if (event.target.type === "checkbox") {
+        val = event.target.checked;
+      }
+      newTheme[event.target.id] = val;
+      emit("settheme", newTheme);
     };
     return {
+      colors,
       customization,
-      logging,
+      changeColor,
     };
   },
 };

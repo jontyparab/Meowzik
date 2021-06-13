@@ -29,7 +29,7 @@ main {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  color: white;
+  color: var(--fourthColor);
   align-items: center;
 }
 /*Custom Scroll Bar*/

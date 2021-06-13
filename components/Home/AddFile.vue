@@ -81,7 +81,6 @@ export default {
           md.common.text,
           md.format.codec
         );
-        // console.log(newSong);
         newSongs.push(newSong);
       }
       store.dispatch("appendSongList", newSongs);

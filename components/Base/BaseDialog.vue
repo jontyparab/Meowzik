@@ -61,7 +61,7 @@ export default {
   width: 100vw;
 }
 .header {
-  background: #f48c06;
+  background: var(--thirdColor);
   font-size: 1.5rem;
   font-weight: bold;
   height: auto;
@@ -79,7 +79,6 @@ export default {
   font-size: 1.5rem;
   height: auto;
   width: 100%;
-  padding: 0.5rem;
 }
 
 @media only screen and (max-width: 480px) {

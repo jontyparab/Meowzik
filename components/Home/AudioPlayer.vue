@@ -3,12 +3,14 @@
     <div class="player-container">
       <!-- Song Image -->
       <div class="song-image-container">
-        <img :src="songImage" class="song-image" :style="imgStyle" />
+        <img :src="songImage" class="song-image" />
       </div>
 
       <!-- Song Details -->
-      <p class="song-name">Fly High!!</p>
-      <p class="artist-name">BURNOUT SYNDROMES</p>
+      <p class="song-name">
+        {{ currentSong?.name || "Add few songs..." }}
+      </p>
+      <p class="artist-name">{{ currentSong?.artists.join()||'<unknown>' }}</p>
 
       <!-- Control Room -->
       <control-room></control-room>
@@ -18,23 +20,21 @@
 
 <script>
 import { ref, computed } from "vue";
-// import { useStore } from "vuex";
+import { useStore } from "vuex";
 import ControlRoom from "./ControlRoom.vue";
 
 export default {
   components: { ControlRoom },
   setup() {
-    // const store = useStore();
+    const store = useStore();
     const songImage = ref(require("@/assets/images/cat2.jpg"));
-    const imgStyle = computed(() => {
-      return {
-        borderColor: "#f48c06",
-      };
-    });
 
+    const currentSong = computed(() => {
+      return store.getters.currentSong;
+    });
     return {
       songImage,
-      imgStyle,
+      currentSong,
     };
   },
 };
@@ -57,7 +57,7 @@ export default {
 }
 .song-image-container {
   padding: 0.3rem;
-  background: linear-gradient(to right, #0353a4, #5a189a);
+  background: linear-gradient(to right, var(--firstColor), var(--secondColor));
   display: flex;
   align-items: center;
   justify-content: center;
@@ -79,7 +79,7 @@ export default {
 .artist-name {
   text-align: center;
   font-size: 1rem;
-  color: rgba(245, 245, 245, 0.479);
+  opacity: 0.6;
   margin: 0.2rem;
   width: 80%;
 }

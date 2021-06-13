@@ -4,7 +4,7 @@
       class="p-m-1"
       v-if="icon"
       :icon="icon"
-      color="#5a189a"
+      color="var(--secondColor)"
       :size="size"
     />
 
@@ -44,7 +44,7 @@ export default {
 };
 </script>
 
-<style scoped lang='scss'>
+<style lang='scss'>
 .slider-container {
   width: 100%;
   height: 100%;
@@ -64,7 +64,11 @@ input[type="range"] {
   &::-webkit-slider-runnable-track {
     overflow: hidden;
     height: 0.6rem;
-    background: linear-gradient(to right, #5a189a, #0353a4);
+    background: linear-gradient(
+      to right,
+      var(--secondColor),
+      var(--firstColor)
+    );
     border-radius: 0.6rem;
     -webkit-appearance: none;
   }
@@ -76,8 +80,8 @@ input[type="range"] {
     height: 1rem;
     width: 1rem;
     margin-top: -4px;
-    background: white;
-    box-shadow: -30rem 0 0 30rem #f48c06;
+    background: var(--fifthColor);
+    box-shadow: -30rem 0 0 30rem var(--thirdColor);
   }
 }
 </style>
