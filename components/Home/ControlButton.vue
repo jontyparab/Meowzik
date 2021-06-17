@@ -34,7 +34,8 @@ export default {
   cursor: pointer;
   border-radius: 50%;
 }
-img {
+img,
+svg {
   position: absolute;
   height: 100%;
   width: 100%;
