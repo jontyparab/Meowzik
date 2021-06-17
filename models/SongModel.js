@@ -4,12 +4,12 @@ class SongModel {
         this.id = id;
         this.audioTrack = audioTrack;
         this.name = name;
-        this.artists = artists || '<unknown>';
+        this.artists = artists || ['<unknown>'];
         this.album = album || '<unknown>';
         this.image = image;
         this.duration = duration;
-        this.year = year || 'No Lyrics Found';
-        this.subtitles = subtitles || '';
+        this.year = year || '<unknown>';
+        this.subtitles = subtitles || 'No Lyrics Found';
         this.codec = codec || '<unknown>';
     }
 }

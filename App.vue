@@ -6,9 +6,17 @@
 </template>
 
 <script>
+import { onMounted } from "vue";
+import { useStore } from "vuex";
 import BackgroundCover from "./components/Layout/BackgroundCover.vue";
 export default {
   components: { BackgroundCover },
+  setup() {
+    const store = useStore();
+    onMounted(() => {
+      store.dispatch("setCustomizations");
+    });
+  },
 };
 </script>
 
