@@ -69,13 +69,21 @@ export default {
         const md = await mmb.parseBlob(songList[i]);
         // createObjectURL should be avoided; Use mediaSource instead;
         const soundurl = URL.createObjectURL(songList[i]);
+        let imageurl = null;
+        if (md.common.picture !== undefined) {
+          imageurl = URL.createObjectURL(
+            new Blob([md.common.picture[0].data]),
+            { type: md.common.picture[0].format }
+          );
+        }
         const newSong = new Song(
           Date.now() + i,
           songList[i].name,
           soundurl,
           md.common.artists,
           md.common.album,
-          md.common.picture ? md.common.picture[0] : null,
+          // md.common.picture ? imageurl : "@/assets/images/cat2.jpg",
+          imageurl,
           Math.floor(md.format.duration),
           md.common.year,
           md.common.text,

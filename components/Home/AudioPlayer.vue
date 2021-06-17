@@ -3,14 +3,14 @@
     <div class="player-container">
       <!-- Song Image -->
       <div class="song-image-container">
-        <img :src="songImage" class="song-image" />
+        <img :src="songImage('cat2.jpg')" class="song-image" />
       </div>
 
       <!-- Song Details -->
       <p class="song-name">
         {{ currentSong?.name || "Add few songs..." }}
       </p>
-      <p class="artist-name">{{ currentSong?.artists.join()||'<unknown>' }}</p>
+      <p class="artist-name">{{ currentSong?.artists.join(', ')||'<unknown>' }}</p>
 
       <!-- Control Room -->
       <control-room></control-room>
@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { ref, computed } from "vue";
+import { computed } from "vue";
 import { useStore } from "vuex";
 import ControlRoom from "./ControlRoom.vue";
 
@@ -27,7 +27,17 @@ export default {
   components: { ControlRoom },
   setup() {
     const store = useStore();
-    const songImage = ref(require("@/assets/images/cat2.jpg"));
+    // const songImage = ref(require("@/assets/images/cat2.jpg"));
+    const songImage = computed(() => {
+      return (pic) => {
+        // For some reason it doesn't work directly, some webpack thingy :(
+        if (currentSong.value?.image) {
+          return currentSong.value?.image;
+        } else {
+          return require("@/assets/images/" + pic);
+        }
+      };
+    });
 
     const currentSong = computed(() => {
       return store.getters.currentSong;

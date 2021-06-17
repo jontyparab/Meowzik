@@ -59,11 +59,6 @@ export default {
       },
     });
     const currentSong = computed(() => store.getters.currentSong);
-    // const clearSong = () => {
-    //   console.log("clearsong ran ", store.getters.currentSong);
-    //   URL.revokeObjectURL(store.getters.currentSong);
-    //   console.log("clearsong ran ", store.getters.currentSong);
-    // };
     const drag = ref(false);
     const dragOptions = computed(() => {
       return {
@@ -90,6 +85,7 @@ export default {
     const removeSong = (index) => {
       const bol = currentSong.value.id === songList.value[index].id;
       URL.revokeObjectURL(songList.value[index].audioTrack);
+      URL.revokeObjectURL(songList.value[index].image);
       songList.value.splice(index, 1);
       if (bol) {
         if (songList.value[0] === undefined) {

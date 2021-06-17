@@ -21,10 +21,14 @@
   <!-- Other Controls -->
   <div class="p-d-flex p-m-2 p-jc-around">
     <div class="control" @click="toggleRepeat">
-      <control-button icon="repeat" color="var(--secondColor)" size="1.6" />
+      <control-button icon="repeat" :color="styleToggle('repeat')" size="1.6" />
     </div>
     <div class="control" @click="toggleShuffle">
-      <control-button icon="shuffle" color="var(--secondColor)" size="1.6" />
+      <control-button
+        icon="shuffle"
+        :color="styleToggle('shuffle')"
+        size="1.6"
+      />
     </div>
   </div>
   <!-- Main Controls -->
@@ -53,7 +57,7 @@ export default {
 
     const audioElm = ref();
     const playPause = ref("play");
-    const volume = ref(30);
+    const volume = ref(50);
     const trackPos = ref(0);
 
     const songList = computed(() => store.getters.songList);
@@ -73,6 +77,7 @@ export default {
     });
 
     watch(loadSong, () => {
+      setVolume(volume.value);
       playPause.value = "pause";
     });
 
@@ -117,11 +122,22 @@ export default {
     const toggleRepeat = () => {
       repeatSong.value = !repeatSong.value;
     };
+
     const shuffleSongs = ref(false);
     const toggleShuffle = () => {
       tempIdArr.length = [];
       shuffleSongs.value = !shuffleSongs.value;
     };
+    const styleToggle = computed(() => {
+      return (btn) => {
+        if (btn === "shuffle") {
+          return shuffleSongs.value ? "var(--secondColor)" : "#d3d3d3";
+        } else if (btn === "repeat") {
+          return repeatSong.value ? "var(--secondColor)" : "#d3d3d3";
+        }
+        return;
+      };
+    });
 
     // Volume
     const setVolume = (newVal) => {
@@ -167,6 +183,7 @@ export default {
       playPauseSong,
       toggleRepeat,
       toggleShuffle,
+      styleToggle,
       autoThumb,
       updateThumb,
       updateTime,

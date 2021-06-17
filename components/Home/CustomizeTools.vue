@@ -58,12 +58,16 @@ export default {
       fileInput.value.click();
     };
     const changeBackground = (event) => {
-      const [imageArr] = Object.values(event.target.files);
+      const imageArr = event.target.files[0];
       event.target.value = null;
-      URL.revokeObjectURL(store.getters.background);
-      store.dispatch("backgroundName", imageArr["name"]);
-      store.dispatch("background", URL.createObjectURL(imageArr));
+      const reader = new FileReader();
+      reader.readAsDataURL(imageArr);
+      reader.onload = () => {
+        store.dispatch("backgroundName", imageArr["name"]);
+        store.dispatch("background", reader.result);
+      };
     };
+
     const backgroundName = computed(() => {
       return store.getters["backgroundName"];
     });
