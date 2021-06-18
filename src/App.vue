@@ -1,30 +1,85 @@
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </div>
-  <router-view/>
+  <background-cover></background-cover>
+  <main>
+    <router-view></router-view>
+  </main>
 </template>
 
+<script>
+import { onMounted } from "vue";
+import { useStore } from "vuex";
+import BackgroundCover from "./components/Layout/BackgroundCover.vue";
+export default {
+  components: { BackgroundCover },
+  setup() {
+    const store = useStore();
+    onMounted(() => {
+      store.dispatch("setCustomizations");
+    });
+  },
+};
+</script>
+
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+html,
+body {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}
+* {
+  font-family: Nunito, sans-serif;
+  box-sizing: inherit;
+}
+main {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: var(--fourthColor);
+  align-items: center;
+}
+/*Custom Scroll Bar*/
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
 }
 
-#nav {
-  padding: 30px;
+/* Track */
+::-webkit-scrollbar-track {
+  border-radius: 5px;
 }
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #4040406c;
+  border-radius: 5px;
+}
+/* Contain the Track piece within the div */
+::-webkit-scrollbar-track-piece {
+  background: transparent;
+  margin: 1rem;
 }
 
-#nav a.router-link-exact-active {
-  color: #42b983;
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: grey;
+}
+.p-col {
+  max-width: 50%;
+  max-height: 100%;
+  padding: 0px !important;
+}
+.vertical-container {
+  height: 100%;
+  width: 100%;
+}
+
+@media only screen and (max-width: 1024px) {
+  .p-col {
+    max-height: initial;
+    max-width: initial;
+  }
 }
 </style>
