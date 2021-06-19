@@ -2,11 +2,11 @@ export default {
   namespaced: true,
   state() {
     return {
-      firstColor: '#0353a4',
-      secondColor: '#5a189a',
-      thirdColor: '#f48c06',
+      firstColor: '#083c01',
+      secondColor: '#516751',
+      thirdColor: '#4b932a',
       fourthColor: '#ffffff',
-      fifthColor: '#ffffff',
+      fifthColor: '#000000',
       sixthColor: "#70d900",
       seventhColor: '#ff2c00',
       borderCheck: false,

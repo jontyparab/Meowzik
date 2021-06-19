@@ -13,8 +13,8 @@ export default createStore({
       currentSong: null,
       songList: [
       ],
-      background: require('@/assets/images/cat1.jpg'),
-      backgroundName: 'Cat.jpg'
+      background: require('@/assets/images/GrassCat.jpg'),
+      backgroundName: 'GrassCat.jpg'
     }
   },
   mutations,
